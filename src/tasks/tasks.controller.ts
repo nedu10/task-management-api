@@ -45,7 +45,10 @@ export class TasksController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create_task(@Body() createTaskDto: CreateTaskDto, @GetUser() user: User): Promise<object> {
+  create_task(
+    @Body() createTaskDto: CreateTaskDto,
+    @GetUser() user: User,
+  ): Promise<object> {
     return this.tasksServices.create_task(createTaskDto, user);
   }
   @Delete('/:id')

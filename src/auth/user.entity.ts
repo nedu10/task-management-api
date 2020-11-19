@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -25,7 +26,7 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
-  @OneToMany((type) => TaskEntity, (task) => task.user, { eager: true })
+  @OneToMany((type) => TaskEntity, (task) => task.user, { eager: false })
   tasks: TaskEntity[];
 
   async validatePassword(password: string): Promise<boolean> {

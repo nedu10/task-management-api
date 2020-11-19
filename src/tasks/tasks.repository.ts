@@ -12,6 +12,8 @@ export class TaskRepository extends Repository<TaskEntity> {
     user: User,
   ): Promise<TaskEntity> {
     const { title, description } = createtaskDto;
+    console.log('users >> ', user);
+
     const new_task = new TaskEntity();
     (new_task.title = title), (new_task.description = description);
     new_task.status = TaskStatus.OPEN;
@@ -23,6 +25,7 @@ export class TaskRepository extends Repository<TaskEntity> {
 
     return new_task;
   }
+
   async getTasks(filterDto: TaskFilterDto): Promise<TaskEntity[]> {
     const { status, search } = filterDto;
     const query = this.createQueryBuilder('task');
@@ -37,7 +40,7 @@ export class TaskRepository extends Repository<TaskEntity> {
         { search: `%${search}` },
       );
     }
-    const tasks = await query.getMany();
+    const tasks = await query.leftJoinAndSelect('task.user', 'user').getMany();
     return tasks;
   }
 }
